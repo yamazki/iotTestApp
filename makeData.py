@@ -1,5 +1,6 @@
 import time
 import datetime
+import random
 import math
 import csv
 
@@ -18,9 +19,9 @@ for i in range(1,1000):
  
 #ダミーデータ作成
 for i in range(1000):
-  deg = i % 180
+  deg = i % 180   
   rad = math.radians(deg)
-  luxList.append(math.sin(rad) * 900)
+  luxList.append(math.sin(rad) * 600 * random.uniform(0.8,1.2))
 
 #csv書き込み用のリスト作成
 for i in range(1000):
