@@ -1,0 +1,31 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node', '/usr/local/bin/npm', 'start' ]
+2 info using npm@5.6.0
+3 info using node@v9.4.0
+4 verbose config Skipping project config: /root/.npmrc. (matches userconfig)
+5 verbose stack Error: Failed to parse json
+5 verbose stack Unexpected string in JSON at position 232 while parsing '{
+5 verbose stack   "name": "root",
+5 verbose stack   "version": "1.0.0"'
+5 verbose stack     at parseError (/usr/local/lib/node_modules/npm/node_modules/read-package-json/read-json.js:436:11)
+5 verbose stack     at parseJson (/usr/local/lib/node_modules/npm/node_modules/read-package-json/read-json.js:104:26)
+5 verbose stack     at /usr/local/lib/node_modules/npm/node_modules/read-package-json/read-json.js:51:5
+5 verbose stack     at /usr/local/lib/node_modules/npm/node_modules/graceful-fs/graceful-fs.js:78:16
+5 verbose stack     at FSReqWrap.readFileAfterClose [as oncomplete] (fs.js:528:3)
+6 verbose cwd /root
+7 verbose Linux 3.10.0-693.17.1.el7.x86_64
+8 verbose argv "/usr/local/bin/node" "/usr/local/bin/npm" "start"
+9 verbose node v9.4.0
+10 verbose npm  v5.6.0
+11 error file /root/package.json
+12 error code EJSONPARSE
+13 error Failed to parse json
+13 error Unexpected string in JSON at position 232 while parsing '{
+13 error   "name": "root",
+13 error   "version": "1.0.0"'
+14 error File: /root/package.json
+15 error Failed to parse package.json data.
+15 error package.json must be actual JSON, not just JavaScript.
+15 error
+15 error Tell the package author to fix their package.json file. JSON.parse
+16 verbose exit [ 1, true ]

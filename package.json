@@ -1,0 +1,26 @@
+{
+  "name": "root",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "nodemon": "^1.14.12"
+  },
+  "devDependencies": {
+    "express": "^4.16.2"
+  },
+  "scripts": {
+    "start": "./node_modules/.bin/nodemon ./app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yamazki/nodeAppBase.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yamazki/nodeAppBase/issues"
+  },
+  "homepage": "https://github.com/yamazki/nodeAppBase#readme"
+}
