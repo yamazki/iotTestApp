@@ -4,6 +4,6 @@ node:
   ports:
    - "1337:1337"
   volumes:
-   - ./:/root
-  working_dir: /root
+   - ./node/:/node/
+  working_dir: /node
   command: npm start
