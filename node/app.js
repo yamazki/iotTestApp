@@ -1,11 +1,20 @@
 const app = require("express")();
 const http = require('http').Server(app);
+const io = require('socket.io')(http);
 
-app.get('/', function(req, res){
-  res.send('<h1>Hello world</h1>');
+app.get("/data", function(req, res){
+  console.log(req.query);
+  res.send();
 });
 
-var server = app.listen(80, function(){
-    console.log("Node.js is listening to PORT:" + server.address().port);
+app.get("/", function(req, res){
+  res.sendFile(__dirname + "/html/index.html");
 });
 
+io.on("connection", function(socket){
+  console.log("a user connected");
+});
+
+http.listen(80, function(){
+  console.log("listening on *:3000");
+});
