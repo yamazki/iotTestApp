@@ -2,7 +2,7 @@
 node:
   image: node:9.4.0-alpine
   ports:
-   - "1337:1337"
+   - "80:80"
   volumes:
    - ./node/:/node/
   working_dir: /node

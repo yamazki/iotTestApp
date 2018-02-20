@@ -5,7 +5,7 @@ app.get('/', function(req, res){
   res.send('<h1>Hello world</h1>');
 });
 
-var server = app.listen(1337, function(){
+var server = app.listen(80, function(){
     console.log("Node.js is listening to PORT:" + server.address().port);
 });
 
