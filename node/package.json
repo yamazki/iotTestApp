@@ -5,6 +5,7 @@
   "main": "app.js",
   "dependencies": {},
   "devDependencies": {
+    "date-utils": "^1.2.21",
     "ejs": "^2.5.7",
     "express": "^4.16.2",
     "mongodb": "^3.0.2",

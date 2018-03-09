@@ -2,12 +2,14 @@ const app = require("express")();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const ejs = require('ejs');
+require('date-utils');
 const mysql = require('mysql');
 const connection = mysql.createConnection({
   host : 'mysql',
   user : 'root',
   password : 'password',
   database: 'sensor',
+  timezonw: 'jst'
 });
 
 connection.connect();
@@ -29,6 +31,12 @@ connection.query('SELECT * FROM lux ', function (error, results, fields) {
 app.get("/data", function(req, res){
   console.log(req.query);
   io.emit("new lux", req.query);
+  let lux = req.query.lux;
+  let dt = new Date();
+  let formatted = dt.toFormat("YYYYMMDDHH24MISS");
+  connection.query('INSERT INTO lux VALUES (' + formatted + ','+ lux +')', function (error, results, fields) {
+    console.log(results);
+  })
   res.send();
 });
 
