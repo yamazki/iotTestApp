@@ -40,7 +40,14 @@
   //graph end
 
   var socket = io();
+  
   socket.on("new lux", function(data) {
+    console.log(data);
+    addData(myChart, data.time, data.lux);
+
+  });
+  
+  socket.on("first connect", function(data) {
     console.log(data);
     addData(myChart, data.time, data.lux);
 

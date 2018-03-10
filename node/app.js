@@ -9,10 +9,7 @@ const connection = mysql.createConnection({
   user : 'root',
   password : 'password',
   database: 'sensor',
-  timezonw: 'jst'
 });
-
-connection.connect();
 
 //insert test
 //connection.query('INSERT INTO lux VALUES ("2000-01-01 10:00:00", 100)', function (error, results, fields) {
@@ -21,9 +18,6 @@ connection.connect();
 //
 
 //select test
-connection.query('SELECT * FROM lux ', function (error, results, fields) {
-  console.log(results);
-})
 
 // ejsを使用するための設定
 //app.engine('ejs',ejs.renderFile);
@@ -41,8 +35,10 @@ app.get("/lux/insertdata", function(req, res){
 });
   
 app.get("/lux/getdata", function(req, res){
-  console.log(req.query);
-  connection.query('SELECT * FROM lux ', function (error, results, fields) {
+  let time = req.query.time;
+  let sql = "SELECT * FROM lux WHERE time BETWEEN" + 
+             "'" + time + " 00:00:00" +"'" + "AND" + "'" + time + " 23:59:59" + "'" ;
+  connection.query(sql, function (error, results, fields) {
     res.send(results);
   });
 });
@@ -57,7 +53,14 @@ app.get("/", function(req, res){
 });
 
 io.on("connection", function(socket){
-  console.log("a user connected");
+  let dt = new Date();
+  let time = dt.toFormat("YYYY-MM-DD");
+  let sql = "SELECT * FROM lux WHERE time BETWEEN" + 
+             "'" + time + " 00:00:00" +"'" + "AND" + "'" + time + " 23:59:59" + "'" ;
+  connection.query(sql, function (error, results, fields) {
+    io.emit("first connect", results);
+    console.log(results);
+  });
 });
 
 http.listen(80, function(){
