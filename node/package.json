@@ -5,11 +5,14 @@
   "main": "app.js",
   "dependencies": {},
   "devDependencies": {
+    "browserify": "^16.1.1",
     "date-utils": "^1.2.21",
     "ejs": "^2.5.7",
     "express": "^4.16.2",
+    "moment": "^2.21.0",
     "mongodb": "^3.0.2",
     "mysql": "^2.15.0",
+    "mysql2": "^1.5.2",
     "nodemon": "^1.15.1",
     "socket.io": "^2.0.4"
   },

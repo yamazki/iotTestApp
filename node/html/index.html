@@ -1,19 +1,45 @@
 <!doctype html>
 <title>socket.io graph</title>
 <script src="/socket.io/socket.io.js"></script>
+<script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-ja.min.js"></script>
+<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/ui-lightness/jquery-ui.css" >
+<script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.2/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.js"></script>
 <body>
-<canvas id="myChart"></canvas>
+  <center>
+    <p>Today"s lux graph</p>
+    <canvas id="myChart1"></canvas>
+    <p>lux graph</p>
+    <canvas id="myChart2"></canvas>
+    <input type="text" id="datepicker" size="10">
+    <input type="button" id="displaybt" value="display" onclick="func();">
+  </center>
 <body>
 <script>
-  //graph start
-  var ctx = document.getElementById('myChart').getContext('2d');
-  var myChart = new Chart(ctx, {
-  type: 'line',
+  $(function() {
+    $("#datepicker").datepicker();
+  });
+  let func = function () {
+    time = moment(document.getElementById("datepicker")).format("YYYY-MM-DD");
+    //$.get("/lux/getdata?time="+time);
+    $.get("/lux/getdata",{time: time}, function(data) {
+      console.log(data);
+      for (let i in data) {
+        addData(myChart2, moment(data[i].time).format("HH:mm"), data[i].lux);
+      }
+    });
+  };
+</script>
+<script>
+  var ctx1 = document.getElementById("myChart1").getContext("2d");
+  var myChart1 = new Chart(ctx1, {
+  type: "line",
   data: {
     labels: [],
     datasets: [{
-      label: 'lux',
+      label: "lux",
       data: [],
       backgroundColor: "rgba(153,255,51,0.4)"
         }]
@@ -30,6 +56,43 @@
   }
   });
 
+  var socket = io();
+  
+  socket.on("first connect", function(data) {
+    console.log(data);
+    for (let i in data) {
+      addData(myChart1, moment(data[i].time).format("HH:mm"), data[i].lux);
+    }
+  });
+
+  socket.on("new lux", function(data) {
+    console.log(data);
+    addData(myChart1, data.time, data.lux);
+  });
+  
+  var ctx2 = document.getElementById("myChart2").getContext("2d");
+  var myChart2 = new Chart(ctx2, {
+  type: "line",
+  data: {
+    labels: [],
+    datasets: [{
+      label: "lux",
+      data: [],
+      backgroundColor: "rgba(153,255,51,0.4)"
+        }]
+  },
+  options: {
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true,
+          min: 0,
+        }
+      }]
+    }
+  }
+  });
+  
   function addData(chart, label, data) {
     chart.data.labels.push(label);
     chart.data.datasets.forEach((dataset) => {
@@ -37,20 +100,4 @@
     });
     chart.update();
   }
-  //graph end
-
-  var socket = io();
-  
-  socket.on("new lux", function(data) {
-    console.log(data);
-    addData(myChart, data.time, data.lux);
-
-  });
-  
-  socket.on("first connect", function(data) {
-    console.log(data);
-    addData(myChart, data.time, data.lux);
-
-  });
-
 </script>

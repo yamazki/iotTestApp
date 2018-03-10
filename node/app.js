@@ -2,8 +2,10 @@ require('date-utils');
 const app = require("express")();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
+const moment = require('moment');
+moment().format();
 const ejs = require('ejs');
-const mysql = require('mysql');
+const mysql = require('mysql2');
 const connection = mysql.createConnection({
   host : 'mysql',
   user : 'root',
@@ -40,7 +42,8 @@ app.get("/lux/getdata", function(req, res){
              "'" + time + " 00:00:00" +"'" + "AND" + "'" + time + " 23:59:59" + "'" ;
   connection.query(sql, function (error, results, fields) {
     res.send(results);
-  });
+    console.log("test");
+    });
 });
 
 //ejs
