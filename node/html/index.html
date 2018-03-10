@@ -13,16 +13,39 @@
     <canvas id="myChart1"></canvas>
     <p>lux graph</p>
     <canvas id="myChart2"></canvas>
-    <input type="text" id="datepicker" size="10">
-    <input type="button" id="displaybt" value="display" onclick="func();">
+    <form name="day">
+      <input type="text" id="datepicker" size="10">
+      <input type="button" id="displaybt" value="display" onclick="func();">
+    </form>
   </center>
 <body>
 <script>
   $(function() {
     $("#datepicker").datepicker();
   });
-  let func = function () {
-    time = moment(document.getElementById("datepicker")).format("YYYY-MM-DD");
+    let func = function () {
+    var myChart2 = new Chart(ctx2, {
+    type: "line",
+    data: {
+      labels: [],
+      datasets: [{
+        label: "lux",
+        data: [],
+        backgroundColor: "rgba(153,255,51,0.4)"
+          }]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true,
+            min: 0,
+          }
+        }]
+      }
+    }
+    });
+    let time = moment(document.day.datepicker.value).format("YYYY-MM-DD");
     //$.get("/lux/getdata?time="+time);
     $.get("/lux/getdata",{time: time}, function(data) {
       console.log(data);
