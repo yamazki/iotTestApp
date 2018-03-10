@@ -1,8 +1,8 @@
+require('date-utils');
 const app = require("express")();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const ejs = require('ejs');
-require('date-utils');
 const mysql = require('mysql');
 const connection = mysql.createConnection({
   host : 'mysql',
@@ -28,7 +28,7 @@ connection.query('SELECT * FROM lux ', function (error, results, fields) {
 // ejsを使用するための設定
 //app.engine('ejs',ejs.renderFile);
 
-app.get("/data", function(req, res){
+app.get("/lux/insertdata", function(req, res){
   console.log(req.query);
   io.emit("new lux", req.query);
   let lux = req.query.lux;
@@ -38,6 +38,13 @@ app.get("/data", function(req, res){
     console.log(results);
   })
   res.send();
+});
+  
+app.get("/lux/getdata", function(req, res){
+  console.log(req.query);
+  connection.query('SELECT * FROM lux ', function (error, results, fields) {
+    res.send(results);
+  });
 });
 
 //ejs
