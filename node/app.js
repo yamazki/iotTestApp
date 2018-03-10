@@ -25,13 +25,12 @@ const connection = mysql.createConnection({
 //app.engine('ejs',ejs.renderFile);
 
 app.get("/lux/insertdata", function(req, res){
-  console.log(req.query);
-  io.emit("new lux", req.query);
   let lux = req.query.lux;
   let dt = new Date();
-  let formatted = dt.toFormat("YYYYMMDDHH24MISS");
+  let formatted  = dt.toFormat("YYYYMMDDHH24MISS");
+  req.query.time = dt.toFormat("HH24:MM");
+  io.emit("new lux", req.query);
   connection.query('INSERT INTO lux VALUES (' + formatted + ','+ lux +')', function (error, results, fields) {
-    console.log(results);
   })
   res.send();
 });

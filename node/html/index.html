@@ -89,7 +89,7 @@
   });
 
   socket.on("new lux", function(data) {
-    console.log(data);
+    console.log(data.time);
     addData(myChart1, data.time, data.lux);
   });
   
