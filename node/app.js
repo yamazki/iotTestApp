@@ -28,7 +28,7 @@ app.get("/lux/insertdata", function(req, res){
   let lux = req.query.lux;
   let dt = new Date();
   let formatted  = dt.toFormat("YYYYMMDDHH24MISS");
-  req.query.time = dt.toFormat("HH24:MM");
+  req.query.time = dt.toFormat("HH24:MI");
   io.emit("new lux", req.query);
   connection.query('INSERT INTO lux VALUES (' + formatted + ','+ lux +')', function (error, results, fields) {
   })
@@ -41,7 +41,6 @@ app.get("/lux/getdata", function(req, res){
              "'" + time + " 00:00:00" +"'" + "AND" + "'" + time + " 23:59:59" + "'" ;
   connection.query(sql, function (error, results, fields) {
     res.send(results);
-    console.log("test");
     });
 });
 
@@ -61,7 +60,6 @@ io.on("connection", function(socket){
              "'" + time + " 00:00:00" +"'" + "AND" + "'" + time + " 23:59:59" + "'" ;
   connection.query(sql, function (error, results, fields) {
     io.emit("first connect", results);
-    console.log(results);
   });
 });
 

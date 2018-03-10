@@ -1,14 +1,16 @@
 #node
 node:
-  image: node:9.4.0-alpine
+  image: node:9.4.0
   ports:
-   - "80:80"
+    - "80:80"
   volumes:
-   - ./node/:/node/
+    - ./node/:/node/
+  environment:
+    - "TZ=Japan"
   working_dir: /node
   command: npm start
   links:
-   - mysql
+    - mysql
   
 mysql:
   image: mysql:5.7.16
@@ -19,4 +21,4 @@ mysql:
   volumes:
     - ./mysql/volumes:/var/lib/mysql
   ports:
-      - "3306:3306"
+    - "3306:3306"
