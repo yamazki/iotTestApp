@@ -15,16 +15,18 @@
     <canvas id="myChart2"></canvas>
     <form name="day">
       <input type="text" id="datepicker" size="10">
-      <input type="button" id="displaybt" value="display" onclick="func();">
+      <input type="button" id="displaybt" value="display" onclick="display();">
     </form>
   </center>
 <body>
 <script>
+
   $(function() {
     $("#datepicker").datepicker();
   });
-    let func = function () {
-    var myChart2 = new Chart(ctx2, {
+  
+  let display = function () {
+    let myChart2 = new Chart(ctx2, {
     type: "line",
     data: {
       labels: [],
@@ -54,67 +56,6 @@
       }
     });
   };
-</script>
-<script>
-  var ctx1 = document.getElementById("myChart1").getContext("2d");
-  var myChart1 = new Chart(ctx1, {
-  type: "line",
-  data: {
-    labels: [],
-    datasets: [{
-      label: "lux",
-      data: [],
-      backgroundColor: "rgba(153,255,51,0.4)"
-        }]
-  },
-  options: {
-    scales: {
-      yAxes: [{
-        ticks: {
-          beginAtZero: true,
-          min: 0,
-        }
-      }]
-    }
-  }
-  });
-
-  var socket = io();
-  
-  socket.on("first connect", function(data) {
-    console.log(data);
-    for (let i in data) {
-      addData(myChart1, moment(data[i].time).format("HH:mm"), data[i].lux);
-    }
-  });
-
-  socket.on("new lux", function(data) {
-    console.log(data.time);
-    addData(myChart1, data.time, data.lux);
-  });
-  
-  var ctx2 = document.getElementById("myChart2").getContext("2d");
-  var myChart2 = new Chart(ctx2, {
-  type: "line",
-  data: {
-    labels: [],
-    datasets: [{
-      label: "lux",
-      data: [],
-      backgroundColor: "rgba(153,255,51,0.4)"
-        }]
-  },
-  options: {
-    scales: {
-      yAxes: [{
-        ticks: {
-          beginAtZero: true,
-          min: 0,
-        }
-      }]
-    }
-  }
-  });
   
   function addData(chart, label, data) {
     chart.data.labels.push(label);
@@ -123,4 +64,65 @@
     });
     chart.update();
   }
+  
+  let socket = io();
+  
+  socket.on("first connect", function(data) {
+    for (let i in data) {
+      addData(myChart1, moment(data[i].time).format("HH:mm"), data[i].lux);
+    }
+  });
+
+  socket.on("new lux", function(data) {
+    addData(myChart1, data.time, data.lux);
+  });
+  
+</script>
+<script>
+  let ctx1 = document.getElementById("myChart1").getContext("2d");
+  let myChart1 = new Chart(ctx1, {
+  type: "line",
+  data: {
+    labels: [],
+    datasets: [{
+      label: "lux",
+      data: [],
+      backgroundColor: "rgba(153,255,51,0.4)"
+        }]
+  },
+  options: {
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true,
+          min: 0,
+        }
+      }]
+    }
+  }
+  });
+
+  let ctx2 = document.getElementById("myChart2").getContext("2d");
+  let myChart2 = new Chart(ctx2, {
+  type: "line",
+  data: {
+    labels: [],
+    datasets: [{
+      label: "lux",
+      data: [],
+      backgroundColor: "rgba(153,255,51,0.4)"
+        }]
+  },
+  options: {
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true,
+          min: 0,
+        }
+      }]
+    }
+  }
+  });
+  
 </script>
