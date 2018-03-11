@@ -7,20 +7,23 @@
 <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/ui-lightness/jquery-ui.css" >
 <script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.2/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.js"></script>
+<style type="text/css">
+</style>
 <body>
   <center>
-    <p>Today"s lux graph</p>
+    <div id="time"></div>
+    <div id="lux" ></div>
+    <p><font size="5">Today"s lux graph</font></p>
     <canvas id="myChart1"></canvas>
-    <p>lux graph</p>
+    <p><font size="5"><div id=graph2Title>Select a date from the box below!</div></font></p>
     <canvas id="myChart2"></canvas>
     <form name="day">
-      <input type="text" id="datepicker" size="10">
-      <input type="button" id="displaybt" value="display" onclick="display();">
+      <input type="text" id="datepicker" size="10" style="width:100px; height:20px;">
+      <input type="button" value="display" onclick="display();">
     </form>
   </center>
 <body>
 <script>
-
   $(function() {
     $("#datepicker").datepicker();
   });
@@ -50,7 +53,7 @@
     let time = moment(document.day.datepicker.value).format("YYYY-MM-DD");
     //$.get("/lux/getdata?time="+time);
     $.get("/lux/getdata",{time: time}, function(data) {
-      console.log(data);
+      document.getElementById("graph2Title").innerHTML = "<font size=5>" + time + "'s lux graph</font>";
       for (let i in data) {
         addData(myChart2, moment(data[i].time).format("HH:mm"), data[i].lux);
       }
@@ -68,13 +71,18 @@
   let socket = io();
   
   socket.on("first connect", function(data) {
-    for (let i in data) {
+    let i;
+    for (i in data) {
       addData(myChart1, moment(data[i].time).format("HH:mm"), data[i].lux);
     }
+    document.getElementById("time").innerHTML ="time: " + moment(data[i].time).format("YYYY/MM/DD HH:mm");
+    document.getElementById("lux").innerHTML = "lux : " + data[i].lux;
+    
   });
 
   socket.on("new lux", function(data) {
-    addData(myChart1, data.time, data.lux);
+    console.log(data.time);
+    addData(myChart1, moment(data.time).format("HH:mm"), data.lux);
   });
   
 </script>
