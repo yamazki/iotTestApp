@@ -81,7 +81,8 @@
   });
 
   socket.on("new lux", function(data) {
-    console.log(data.time);
+    document.getElementById("time").innerHTML ="time: " + moment(data.time).format("YYYY/MM/DD HH:mm");
+    document.getElementById("lux").innerHTML = "lux : " + data.lux;
     addData(myChart1, moment(data.time).format("HH:mm"), data.lux);
   });
   
