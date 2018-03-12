@@ -53,6 +53,7 @@
     let time = moment(document.day.datepicker.value).format("YYYY-MM-DD");
     //$.get("/lux/getdata?time="+time);
     $.get("/lux/getdata",{time: time}, function(data) {
+      let time = moment(document.day.datepicker.value).format("YYYY/MM/DD");
       document.getElementById("graph2Title").innerHTML = "<font size=5>" + time + "'s lux graph</font>";
       for (let i in data) {
         addData(myChart2, moment(data[i].time).format("HH:mm"), data[i].lux);
@@ -75,8 +76,8 @@
     for (i in data) {
       addData(myChart1, moment(data[i].time).format("HH:mm"), data[i].lux);
     }
-    document.getElementById("time").innerHTML ="time: " + moment(data[i].time).format("YYYY/MM/DD HH:mm");
-    document.getElementById("lux").innerHTML = "lux : " + data[i].lux;
+    document.getElementById("time").innerHTML ="<font size=5>" + "time: " + moment(data[i].time).format("YYYY/MM/DD HH:mm") + "</font>";
+    document.getElementById("lux").innerHTML = "<font size=5>" + "lux : " + data[i].lux + "</font>";
     
   });
 
@@ -89,6 +90,7 @@
 </script>
 <script>
   let ctx1 = document.getElementById("myChart1").getContext("2d");
+  ctx1.canvas.height = 100;
   let myChart1 = new Chart(ctx1, {
   type: "line",
   data: {
@@ -105,13 +107,14 @@
         ticks: {
           beginAtZero: true,
           min: 0,
-        }
-      }]
+          }
+        }]
     }
   }
   });
 
   let ctx2 = document.getElementById("myChart2").getContext("2d");
+  ctx2.canvas.height = 100;
   let myChart2 = new Chart(ctx2, {
   type: "line",
   data: {
