@@ -29,7 +29,9 @@
   });
   
   let display = function () {
-    let myChart2 = new Chart(ctx2, {
+    myChart2.destroy();
+    ctx2.canvas.height = 100;
+    myChart2 = new Chart(ctx2, {
     type: "line",
     data: {
       labels: [],
